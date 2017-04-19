@@ -51,3 +51,18 @@ day,serverip,clientip,clientport,clientlat,clientlon,countrtt,sumrtt,avgrtt,clie
 
 ## Realtime Monitoring in PowerBI
 
+
+# Running the Demonstration
+
+1. Get the Raspberry PI turned on and running
+2. Edit parseMLabData.py
+3. Update the dataday on line to the day you want to scan
+4. Get the IP address from the MQTT server 
+5. Make sure the parseMLabData.py file is pointed to the correct IP
+6. Start the mosquitto service on the PI: "sudo service mosquitto start"
+7. Run the python file – it will pull down data from the Google network, then prompt for an "Enter" press when it is ready to start broadcasting. 
+8. Start the mosquitto service on the server: "service mosquitto start"
+9. Start the Storm Cluster: "storm jar target/storm-1.0.jar storm.MQTTHivePBITopology"
+10. Wait for the storm topology to load and provide a prompt saying it is looking for the MQTT spout.
+11. Start the MQTT stream by pressing "Enter" on the Raspberry PI
+12. Monitor the output of the data stream on Power BI: The DataNDT dashboard is live.

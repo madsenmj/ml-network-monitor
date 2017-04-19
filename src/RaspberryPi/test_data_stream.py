@@ -1,23 +1,16 @@
-import subprocess
-import shlex
 import datetime
-from tarfile import TarFile
-import os
-import datetime
-import iso8601
-import geoip2.database
-import ipaddress
 import paho.mqtt.client as mqtt
 import random
 import string
-import time
+
+
 now = datetime.datetime.now()
 
 # Output path for storing the log file
 outpath='./'
 
 # Log file name
-templog = 'test_tempdata.csv'
+templog = 'tempdata_stream.log'
 
 # MQTT server name (on port 1883)
 serverIP = "192.168.1.249"
@@ -89,7 +82,7 @@ for i in range(npoints):
     print output
 
     
-
+	# append the data to the file
     with open(outpath + templog , 'a') as logfile:
         output += "\n"
         logfile.writelines(output)

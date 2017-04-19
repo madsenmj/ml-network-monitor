@@ -12,7 +12,23 @@ import paho.mqtt.client as mqtt
 now = datetime.datetime.now()
 dayoffset=20
 
+# Output path for all the data and directory structures
+outpath='/home/pi/data/'
 
+# Filename to store the directory structure on Google Cloud
+fnameout='dirout.txt'
+
+# Directory with the gsutil executable
+gsutildir = '/home/pi/gsutil/'
+
+# The NDT server name we will get data from
+focusserver = 'atl01'
+
+# MQTT server ip address
+serverIP = "192.168.1.249"
+
+# MQTT Topic name for which the server is listening
+mqtttopic = "ndt"
 
 #Data date: (20160504 run on 6/21/2016)
 datayear = 2016
@@ -57,7 +73,7 @@ client.on_connect = on_connect
 client.on_message = on_message
 client.on_publish = on_publish
 
-client.connect("192.168.1.249", 1883, 60)
+client.connect(serverIP, 1883, 60)
 
 ############################################################
 #
@@ -69,11 +85,10 @@ client.connect("192.168.1.249", 1883, 60)
 ############################################################
 
 
-cmd='/home/pi/gsutil/gsutil ls -l gs://m-lab/ndt/{0:02d}/{1:02d}/{2:02d}'.format(datayear, datamonth,dataday) 
+cmd=gsutildir + 'gsutil ls -l gs://m-lab/ndt/{0:02d}/{1:02d}/{2:02d}'.format(datayear, datamonth,dataday) 
 print cmd
 cmd = cmd.split()
-outpath='/home/pi/data/'
-fnameout='dirout.txt'
+
 #record a log file for each day's data
 logfile='metadata{0:02d}{1:02d}{2:02d}.log'.format(now.year, now.month,now.day-dayoffset)
 
@@ -90,8 +105,6 @@ with open(outpath+fnameout,'w') as fout:
 #
 #
 ############################################################
-
-focusserver = 'atl01'
 
 filestoopen = list()
 with open(outpath+fnameout, 'r') as fin:
@@ -118,7 +131,8 @@ for zipfile in filestoopen:
     print "Fetching " + zipfile + " "
 
     fnameout='temp/tempzip.tgz'
-    cmd='/home/pi/gsutil/gsutil cp ' + zipfile + " " + outpath + fnameout
+	
+    cmd=gsutildir + 'gsutil cp ' + zipfile + " " + outpath + fnameout
     cmd = cmd.split()
     subprocess.call(cmd)
 
@@ -210,7 +224,7 @@ for zipfile in filestoopen:
                 logline.write(output)
 
             #Send the string to the MQTT messenger
-            (rc, mid) = client.publish("ndt", output, qos=0)
+            (rc, mid) = client.publish(mqtttopic, output, qos=0)
                 
         except:
             print "Error on reading"
