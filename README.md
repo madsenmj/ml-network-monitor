@@ -24,7 +24,8 @@ There are two more elements that are extracted from this data:
 ## Data collection
 I pulled the historical NDT data in chunks of 16000 rows because the csv export is limited by their free interface to 16000 rows in one file. The query is:
  
-```SELECT
+```
+SELECT
   STRFTIME_UTC_USEC(web100_log_entry.log_time * INTEGER(POW(10, 6)),
                     '%Y-%m-%dT%H:%M:%S') AS datetime,
   web100_log_entry.connection_spec.local_ip as serverip,
@@ -46,7 +47,8 @@ WHERE
                     '%Y-%m-%dT%H:%M:%S') > '2015-11-15T20:23:54'
 ORDER BY
   datetime ASC
-LIMIT 16000;```
+LIMIT 16000;
+```
  
  
 Pulled data from 2015-01-01T00:00:00 to 2016-05-03T20:08:50 as the historical training data from the MLab servers.
