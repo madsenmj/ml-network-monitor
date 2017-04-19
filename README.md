@@ -44,22 +44,20 @@ WHERE
   web100_log_entry.connection_spec.remote_ip IS NOT NULL AND web100_log_entry.snap.CountRTT > 10 AND
   connection_spec.server_hostname=='mlab1.atl01.measurement-lab.org' AND 
         STRFTIME_UTC_USEC(web100_log_entry.log_time * INTEGER(POW(10, 6)),
-                    '%Y-%m-%dT%H:%M:%S') > '2015-11-15T20:23:54'
+                    '%Y-%m-%dT%H:%M:%S') > '2015-01-01T00:00:00'
 ORDER BY
   datetime ASC
 LIMIT 16000;
 ```
  
- 
-Pulled data from 2015-01-01T00:00:00 to 2016-05-03T20:08:50 as the historical training data from the MLab servers.
+I ran the queries one at a time, noting the final time in each block of 16000 rows and updating the `WHERE` clause accordingly to start collecting entries after the last time. Doing this, I pulled data from 2015-01-01T00:00:00 to 2016-05-03T20:08:50 as the historical training data from the MLab servers. Each query was saved in a folder using sequential file names. I then combined all the data into a single file using a `cat` command.
 
-I then combined the data and calculate outliers for each client subnet.
+## Preliminary Data Exploration
 
-
-### Preliminary Data Exploration
+Initial data exploration and processing was done using `R`.  
 
 
-# Data Schema
+## Data Schema
 
 ## Data from IoT NDT Simulator
 
@@ -68,7 +66,7 @@ NDT data from the RapsberryPi IoT simulator is passed to the IoT server using th
 `day,serverip,clientip,clientport,clientlat,clientlon,countrtt,sumrtt,avgrtt,clientsub`
 
 
-## Importing Data to Hadoop/Hive
+# Importing Data to Hadoop/Hive
 
 ### Hortonworks Sandbox
 
