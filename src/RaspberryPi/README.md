@@ -24,7 +24,7 @@ I wrote a simple [python program](mqtt_test.py) for testing the Mosquitto system
 
 # Python NDT Test Data Generator
 
-I have two programs to generate NDT testing data (same schema as the final project, but using random values), both found in the [RaspberryPi](\src\RaspberryPi) folder.
+I have two programs to generate NDT testing data (same schema as the final project, but using random values), both found in the [RaspberryPi](/src/RaspberryPi) folder.
 1. The first generates a list of sample values as if they came from the NDT data: `test_data_generator.py`
 2. The second tests the MQTT transmission of data values to the IoT server: `test_data_stream.py`
 
