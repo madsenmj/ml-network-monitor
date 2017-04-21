@@ -1,4 +1,4 @@
-package com.allegient.storm;
+package storm;
 
 import java.io.FileReader;
 import java.util.Map;

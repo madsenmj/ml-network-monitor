@@ -1,4 +1,4 @@
-package com.allegient.storm;
+package storm;
 
 import java.io.Serializable;
 
@@ -51,7 +51,7 @@ public class NDTData implements Serializable{
 		DateTime dt1 = new DateTime(olddata.getDay());
 		DateTime dt2 = new DateTime(this._daytime);
 		Integer dt = Seconds.secondsBetween(dt1, dt2).getSeconds();
-		this._datafreq = (olddata.getDatafreq() + 1f/dt * 108000)/2f;
+		this._datafreq = (olddata.getDatafreq() + 1f/dt * 86400)/2f;
 
 		this._dataday = dt2.toString("YYYYMMdd");
 	}

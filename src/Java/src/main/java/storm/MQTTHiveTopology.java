@@ -1,5 +1,4 @@
-package com.allegient.storm;
-
+package storm;
 import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.DriverManager;

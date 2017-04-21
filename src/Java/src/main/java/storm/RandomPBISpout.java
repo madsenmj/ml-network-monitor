@@ -1,4 +1,4 @@
-package com.allegient.storm;
+package storm;
 
 import java.util.LinkedList;
 import java.util.Map;

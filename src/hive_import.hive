@@ -1,0 +1,43 @@
+CREATE TABLE ndt_atl01
+ (daytime STRING,  
+  serverip STRING,  
+  clientip STRING,  
+  clientport INT,  
+  clientLat FLOAT,  
+  clientLon FLOAT,  
+  countrtt INT,  
+  sumrtt INT,  
+  avgrtt FLOAT,  
+  ninsub INT,  
+  avginsub FLOAT,  
+  sigmainsub FLOAT, 
+  datafreq FLOAT, 
+  outlier INT,  
+  dataday STRING)  
+PARTITIONED BY (clientsub STRING)  
+CLUSTERED BY (daytime) into 4 buckets  
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','  
+stored as orc tblproperties ('transactional'='true');
+ 
+LOAD DATA INPATH '/user/root/NDT/processed_combined_data.csv' OVERWRITE INTO TABLE temp_ndt;
+ 
+insert into table ndt_atl01 partition (clientsub)  
+SELECT  
+ regexp_extract(col_value, '^(?:([^,]*),?){1}', 1) daytime,    
+ regexp_extract(col_value, '^(?:([^,]*),?){2}', 1) serverip,  
+ regexp_extract(col_value, '^(?:([^,]*),?){3}', 1) clientip,  
+ regexp_extract(col_value, '^(?:([^,]*),?){4}', 1) clientport,  
+ regexp_extract(col_value, '^(?:([^,]*),?){5}', 1) clientlat,  
+ regexp_extract(col_value, '^(?:([^,]*),?){6}', 1) clientlon,  
+ regexp_extract(col_value, '^(?:([^,]*),?){7}', 1) countrtt,  
+ regexp_extract(col_value, '^(?:([^,]*),?){8}', 1) sumrtt,  
+ regexp_extract(col_value, '^(?:([^,]*),?){9}', 1) avgrtt,  
+ regexp_extract(col_value, '^(?:([^,]*),?){10}', 1) ninsub,  
+ regexp_extract(col_value, '^(?:([^,]*),?){11}', 1) avginsub,  
+ regexp_extract(col_value, '^(?:([^,]*),?){12}', 1) sigmainsub,  
+ regexp_extract(col_value, '^(?:([^,]*),?){13}', 1) datafreq,  
+ regexp_extract(col_value, '^(?:([^,]*),?){14}', 1) outlier,  
+ regexp_extract(col_value, '^(?:([^,]*),?){15}', 1) dataday,  
+ regexp_extract(col_value, '^(?:([^,]*),?){16}', 1) clientsub  
+from temp_ndt;
+

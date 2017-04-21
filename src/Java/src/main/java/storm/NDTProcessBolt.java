@@ -1,4 +1,4 @@
-package com.allegient.storm;
+package storm;
 
 import java.util.HashMap;
 import java.util.Map;
